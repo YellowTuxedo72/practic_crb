@@ -1,0 +1,131 @@
+{% extends "base_cabinet.html" %} 
+{% load static %} 
+
+{% block title %} 
+Вход в личный кабинет
+{% endblock %} 
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}" />
+{% endblock %} 
+
+{% block content %}
+<!-- Главная серая подложка, выравнивающая контент по центру экрана -->
+<div class="login-wrapper">
+  
+  <!-- Основной двухколоночный контейнер макс-шириной 1300px -->
+  <div class="auth-container">
+    
+    <!-- ЛЕВАЯ ЧАСТЬ: Свободное пространство для общей инфы -->
+    <div class="auth-info-side">
+      <div class="info-content-placeholder">
+        <h2>Пространство для информирования</h2>
+        <p>Справочная информация, преимущества личного кабинета</p>
+      </div>
+    </div>
+
+    <!-- ПРАВАЯ ЧАСТЬ: Изолированная карточка формы авторизации -->
+    <div class="login-card">
+      
+      <!-- Иконка пользователя -->
+      <div class="avatar-container">
+        <div class="avatar-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b72f3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Заголовки -->
+      <h2>Вход в личный кабинет</h2>
+      <p class="subtitle">Введите телефон и пароль для входа</p>
+
+      <!-- Вывод ошибок Django Messages -->
+      {% if messages %}
+        <div class="messages-container">
+          {% for message in messages %}
+            <div class="alert alert-danger">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <!-- Форма авторизации -->
+      <form method="POST" action="{% url 'cabinet:login' %}" class="login-form">
+        {% csrf_token %}
+        
+        <!-- Поле Телефон -->
+        <div class="input-group">
+          <label for="phone">Телефон</label>
+          <div class="input-with-icon">
+            <span class="field-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a0aec0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </span>
+            <input type="tel" id="phone" name="username" placeholder="+7 (___) ___-__-__" required />
+          </div>
+        </div>
+
+        <!-- Поле Пароль -->
+        <div class="input-group">
+          <label for="password">Пароль</label>
+          <div class="input-with-icon">
+            <span class="field-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a0aec0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </span>
+            <input type="password" id="password" name="password" placeholder="Введите пароль" required />
+            <button type="button" class="toggle-password">
+              <svg class="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a0aec0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Дополнительные опции (Чекбокс и Ссылка) -->
+        <div class="form-options">
+          <div class="checkbox-group">
+            <input type="checkbox" id="remember_me" name="remember_me" class="custom-checkbox" checked />
+            <label for="remember_me">Запомнить меня</label>
+          </div>
+          <a href="#" class="forgot-link">Забыли пароль?</a>
+        </div>
+
+        <!-- Кнопка Войти -->
+        <button type="submit" class="submit-btn">
+          Войти
+          <span class="arrow">&rarr;</span>
+        </button>
+      </form>
+
+      <!-- Разделитель "или" -->
+      <div class="divider">
+        <span>или</span>
+      </div>
+
+      <!-- Кнопка Зарегистрироваться -->
+      <a href="{% url 'cabinet:register' %}" class="register-btn">
+        Зарегистрироваться
+        <span class="user-add-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3b72f3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="8.5" cy="7" r="4"></circle>
+            <line x1="20" y1="8" x2="20" y2="14"></line>
+            <line x1="23" y1="11" x2="17" y2="11"></line>
+          </svg>
+        </span>
+      </a>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/login.js' %}"></script>
+{% endblock %}

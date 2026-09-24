@@ -1,0 +1,92 @@
+{% extends "base.html" %} 
+{% block title %} 
+Главная 
+{% endblock %} 
+{% block content %}
+
+<!-- Баннер -->
+<section class="hero-banner">
+  <!-- Путь к вашей цельной картинке задается в CSS для этого контейнера -->
+  <div class="banner-container">
+    <!-- Левая текстовая часть, которая ложится поверх белой зоны фона -->
+    <div class="banner-content">
+      <h2 class="banner-title">Качественная медицинская помощь для каждого</h2>
+      <p class="banner-description">
+        Современное оборудование, профессиональные врачи и индивидуальный подход
+        к каждому пациенту.
+      </p>
+      <div class="banner-actions">
+        <a href="#" class="btn-primary">
+          <svg class="btn-icon" viewBox="0 0 24 24" xmlns="http://w3.org">
+            <path
+              d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 5H7v2h5v-2zm4 0h-2v2h2v-2zm-4 4H7v2h5v-2zm4 0h-2v2h2v-2z"
+            />
+          </svg>
+          <span>Выбрать услугу</span>
+        </a>
+        <a href="#" class="btn-secondary">
+          <svg class="btn-icon" viewBox="0 0 24 24" xmlns="http://w3.org">
+            <path
+              d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+            />
+          </svg>
+          <span>Личный кабинет</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Новости -->
+<section class="news-section">
+  <div class="news-container">
+    <!-- Заголовок секции со ссылкой -->
+    <div class="news-header">
+      <h3 class="section-title">Новости</h3>
+      <a href="#" class="all-news-link">
+        <span>Все новости</span>
+        <svg class="link-arrow" viewBox="0 0 24 24" xmlns="http://w3.org">
+          <path
+            d="M5 12h14M12 5l7 7-7 7"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+          />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Сетка карточек -->
+    <div class="news-grid">
+      {% for news in news_list %}
+      <article class="news-card">
+        <div class="card-image">
+          {% if news.thumbnail %}
+          <img src="{{ news.thumbnail.url }}" alt="{{ news.title }}" />
+          {% else %}
+          <img
+            alt="Нет изображения"
+          />
+          {% endif %}
+        </div>
+
+        <div class="card-content">
+          <span class="card-date"> {{ news.created_at|date:"d.m.Y" }} </span>
+
+          <h4 class="card-title">{{ news.title }}</h4>
+          <p class="card-text">{{ news.preview }}</p>
+          <a href="url 'news_detail' news.slug " class="read-more">
+            Читать полностью
+          </a>
+        </div>
+      </article>
+      {% empty %}
+      <p>Новостей пока нет.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<!-- Подвал -->
+
+{% endblock %}

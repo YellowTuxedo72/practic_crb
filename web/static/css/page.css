@@ -1,0 +1,148 @@
+.page-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 40px 30px 70px;
+
+    background-color: #FAFBFD;
+    border-radius: 16px;
+}
+
+/* Заголовок страницы */
+
+.page-header {
+    margin-bottom: 36px;
+}
+
+.page-title {
+    margin: 0;
+    color: #1f2937;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+/* Основной контент */
+
+.page-content {
+    color: #374151;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.page-paragraph {
+    margin: 0 0 20px;
+}
+
+.page-paragraph:last-child {
+    margin-bottom: 0;
+}
+
+/* Таблицы */
+
+.page-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin: 30px 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+}
+
+.page-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+}
+
+.page-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    border-right: 1px solid #e2e8f0;
+    vertical-align: top;
+}
+
+.page-table td:last-child {
+    border-right: none;
+}
+
+.page-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* HTML / iframe */
+
+.page-code {
+    width: 100%;
+    margin: 32px 0;
+}
+
+.page-code iframe {
+    display: block;
+    width: 100%;
+    min-height: 420px;
+    border: 0;
+    border-radius: 12px;
+}
+
+/* Адаптация */
+
+@media (max-width: 768px) {
+    .page-container {
+        padding: 30px 16px 50px;
+    }
+
+    .page-title {
+        font-size: 30px;
+    }
+
+    .page-content {
+        font-size: 16px;
+    }
+
+    .page-table td {
+        padding: 11px 12px;
+    }
+
+    .page-code iframe {
+        min-height: 350px;
+        border-radius: 10px;
+    }
+}
+
+.news-detail-image {
+    width: 100%;
+    margin-bottom: 36px;
+}
+
+.news-detail-image img {
+    display: block;
+    width: 100%;
+    max-height: 520px;
+    object-fit: cover;
+    border-radius: 14px;
+}
+
+.news-detail-back {
+    margin-top: 40px;
+}
+
+.news-detail-back a {
+    color: #0284c7;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.news-detail-back a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .news-detail-image {
+        margin-bottom: 28px;
+    }
+
+    .news-detail-image img {
+        max-height: 350px;
+        border-radius: 10px;
+    }
+}

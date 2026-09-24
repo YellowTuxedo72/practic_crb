@@ -1,0 +1,1091 @@
+/* Базовые настройки проекта */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Глобальные цвета для удобного управления */
+:root {
+    --color-dark: #00052C;
+    --color-blue: #105DC7;
+    --color-blue-dark: #0d47a1;
+    --color-gray: #666666;
+}
+
+body {
+    background-color: #ffffff;
+}
+
+/* Шапка сайта */
+.main-header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    padding: 15px 0;
+}
+
+.header-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 10px 20px 30px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    border-bottom: 1px solid #E5E7EB;
+    width: 100%;
+}
+
+/* Блок бренда и инфо-блоки */
+.header-brand,
+.info-block,
+.accessibility-btn,
+.login-btn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-placeholder {
+    width: 50px;
+    height: 50px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+}
+
+.brand-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-dark);
+    letter-spacing: 0.5px;
+}
+
+.brand-subtitle,
+.schedule {
+    font-size: 13px;
+    margin-top: 2px;
+}
+
+.brand-subtitle {
+    color: var(--color-dark);
+}
+
+.schedule {
+    color: var(--color-gray);
+}
+
+/* Информационный блок */
+.header-info {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.info-block {
+    gap: 10px;
+}
+
+.info-text {
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    color: var(--color-dark);
+    font-weight: 500;
+}
+
+/* Иконки и ссылки */
+.info-icon-svg,
+.login-icon-svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.info-icon-svg {
+    fill: #0446B8;
+}
+
+.login-icon-svg {
+    fill: #ffffff;
+    width: 16px;
+    height: 16px;
+}
+
+.phone-link,
+.accessibility-btn {
+    color: var(--color-dark);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.accessibility-btn {
+    background: none;
+    border: none;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.phone-link:hover,
+.accessibility-btn:hover {
+    color: #0b2265;
+}
+
+/* Кнопка личного кабинета */
+.login-btn {
+    gap: 8px;
+    background-color: var(--color-blue);
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.login-btn:hover {
+    background-color: var(--color-blue-dark);
+}
+
+/* Адаптивный дизайн */
+@media (max-width: 992px) {
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header-info {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 600px) {
+    .header-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}
+
+
+/* Общие стили для панели навигации */
+.main-nav {
+    background-color: #ffffff;
+    width: 100%;
+}
+
+.nav-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Стили основного списка меню */
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    padding: 0px 0px 15px 0px;
+}
+
+.nav-item {
+    position: relative;
+    /* Необходимо для позиционирования выпадающего списка */
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 20px 15px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #00052C;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #105DC7;
+}
+
+/* Иконка стрелочки */
+.arrow-icon {
+    width: 16px;
+    height: 16px;
+    fill: #666666;
+    transition: transform 0.2s ease;
+}
+
+.nav-item:hover .arrow-icon {
+    transform: rotate(180deg);
+    /* Поворот стрелки при наведении */
+    fill: #105DC7;
+}
+
+/* Синяя линия под активным пунктом (Главная) */
+.nav-item.active .nav-link {
+    color: #105DC7;
+    font-weight: 600;
+}
+
+.nav-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    right: 15px;
+    height: 3px;
+    background-color: #105DC7;
+    border-radius: 3px 3px 0 0;
+}
+
+/* Скрытое выпадающее меню */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    min-width: 220px;
+    box-shadow: 0 8px 24px rgba(0, 5, 44, 0.08);
+    border-radius: 0 0 6px 6px;
+    border-top: 2px solid #105DC7;
+    list-style: none;
+    padding: 8px 0;
+
+    /* Скрываем меню по умолчанию */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.2s ease;
+    z-index: 100;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: #00052C;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #f5f8ff;
+    color: #105DC7;
+}
+
+/* Показываем выпадающее меню при наведении на родительский li */
+.nav-item.has-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Поисковая строка */
+.nav-search {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 4px 12px;
+    max-width: 240px;
+    width: 100%;
+}
+
+.nav-search input {
+    border: none;
+    outline: none;
+    font-size: 13px;
+    width: 100%;
+    color: #00052C;
+}
+
+.nav-search input::placeholder {
+    color: #a0aec0;
+}
+
+.search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+.search-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: #666666;
+    transition: fill 0.2s;
+}
+
+.search-btn:hover svg {
+    fill: #105DC7;
+}
+
+/* Простая мобильная адаптация (скрываем поиск на маленьких экранах для компактности) */
+@media (max-width: 992px) {
+    .nav-container {
+        flex-direction: column;
+        padding: 10px 20px;
+    }
+
+    .nav-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-search {
+        margin-top: 10px;
+        max-width: 100%;
+    }
+}
+
+
+.hero-banner {
+    width: 100%;
+    padding: 20px 0;
+}
+
+.banner-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    /* Если картинка не прогрузится, фон будет белым */
+
+    /* ПОДКЛЮЧЕНИЕ ВАШЕЙ КАРТИНКИ ИЗ FIGMA/PHOTOSHOP */
+    background-image: url('Banner.png');
+    background-repeat: no-repeat;
+    background-position: right center;
+    /* Картинка прижата к правому краю */
+    background-size: cover;
+    /* Картинка масштабируется под размеры блока */
+
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 5, 44, 0.02);
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    /* Центрируем текст по вертикали внутри баннера */
+}
+
+/* Левая текстовая часть */
+.banner-content {
+    max-width: 55%;
+    /* Ограничиваем текст, чтобы он не залезал на правую половину с больницей */
+    padding: 60px;
+}
+
+.banner-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #00052C;
+    line-height: 1.3;
+    margin-bottom: 20px;
+}
+
+.banner-description {
+    font-size: 15px;
+    color: #666666;
+    line-height: 1.6;
+    margin-bottom: 35px;
+    max-width: 480px;
+}
+
+/* Кнопки */
+.banner-actions {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.btn-primary {
+    background-color: #105DC7;
+    color: #ffffff;
+}
+
+.btn-primary .btn-icon {
+    fill: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #0d47a1;
+}
+
+.btn-secondary {
+    background-color: #ffffff;
+    border: 1px solid #105DC7;
+    color: #105DC7;
+}
+
+.btn-secondary .btn-icon {
+    fill: #105DC7;
+}
+
+.btn-secondary:hover {
+    background-color: #f4f8ff;
+}
+
+/* Адаптивность под мобильные */
+@media (max-width: 992px) {
+    .banner-container {
+        /* На мобильных фоновая картинка сдвинется, уступая место тексту */
+        background-position: center;
+        min-height: auto;
+    }
+
+    .banner-content {
+        max-width: 100%;
+        /* Текст теперь может занимать всю ширину */
+        padding: 50px 30px;
+        /* Делаем легкую белую плашку поверх фона, чтобы текст читался на любом экране */
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        width: 100%;
+    }
+
+    .banner-title {
+        font-size: 28px;
+    }
+}
+
+
+/* Новости */
+
+/* Общие стили секции */
+.news-section {
+    width: 100%;
+    padding: 10px 0;
+    /* background-color: #f5f5f5; */
+}
+
+.news-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+
+    background-color: #FAFBFC;
+    /* Перенесли серый фон сюда */
+    padding: 30px;
+    /* Внутренние отступы, чтобы карточки не липли к краям серой плитки */
+    border-radius: 16px;
+}
+
+/* Шапка секции (Заголовок + Все новости) */
+.news-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #00052C;
+}
+
+.all-news-link,
+.read-more {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #105DC7;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.all-news-link:hover,
+.read-more:hover {
+    color: #0d47a1;
+}
+
+.link-arrow,
+.inline-arrow {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s ease;
+}
+
+.all-news-link:hover .link-arrow,
+.read-more:hover .inline-arrow {
+    transform: translateX(3px);
+    /* Стрелочка слегка сдвигается вправо при наведении */
+}
+
+/* Сетка новостей */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 равные колонки */
+    gap: 20px;
+}
+
+/* Стили карточки */
+.news-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    gap: 15px;
+    box-shadow: 0 4px 15px rgba(0, 5, 44, 0.01);
+}
+
+/* Картинка внутри карточки */
+.card-image {
+    width: 130px;
+    height: 130px;
+    flex-shrink: 0;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    /* Скругление как на макете */
+}
+
+/* Контентная часть карточки */
+.card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-date {
+    font-size: 11px;
+    color: #8a92a6;
+    margin-bottom: 6px;
+}
+
+.card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #00052C;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    /* Ограничение заголовка в две строки, если он слишком длинный */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-text {
+    font-size: 12px;
+    color: #666666;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    flex-grow: 1;
+    /* Прижимает ссылку «Читать полностью» к низу */
+    /* Ограничение текста статьи в три строки */
+    display: -webkit-box;
+
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.read-more {
+    font-size: 12px;
+    margin-top: auto;
+}
+
+/* Адаптивный дизайн */
+@media (max-width: 1100px) {
+    .news-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 колонки на планшетах */
+    }
+}
+
+@media (max-width: 768px) {
+    .news-grid {
+        grid-template-columns: 1fr;
+        /* 1 колонка на мобильных */
+    }
+
+    .news-card {
+        padding: 15px;
+    }
+
+    .card-image {
+        width: 100px;
+        /* Чуть уменьшаем картинку на смартфонах */
+        height: 100px;
+    }
+}
+
+@media (max-width: 400px) {
+    .news-card {
+        flex-direction: column;
+        /* Картинка становится над текстом на совсем маленьких экранах */
+    }
+
+    .card-image {
+        width: 100%;
+        height: 160px;
+    }
+}
+
+
+/* Подвал */
+
+/* Внешние отступы вокруг футера */
+.main-footer {
+    width: 100%;
+    padding: 30px 0 40px 0;
+    background-color: transparent;
+}
+
+/* Главный серый контейнер футера */
+.footer-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 25px 30px 70px 30px;
+    background-color: #f5f5f5;
+    /* Точно такой же серый фон, как у новостей */
+    border-radius: 16px;
+    /* Закругление углов */
+    display: grid;
+    grid-template-columns: 1.2fr 0.9fr 1.1fr 1fr 1fr;
+    /* Настройка пропорций колонок */
+    gap: 40px;
+    position: relative;
+    /* Необходимо для позиционирования иконки ВК */
+}
+
+/* Колонка бренда (первая) с вертикальным разделителем */
+.brand-column {
+    padding-right: 20px;
+    border-right: 1px solid #e2e8f0;
+    /* Тонкая серая линия справа от бренда */
+}
+
+.footer-brand-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.footer-logo-placeholder {
+    width: 40px;
+    height: 40px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+}
+
+.footer-brand-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #00052C;
+    letter-spacing: 0.5px;
+}
+
+.footer-brand-subtitle {
+    font-size: 12px;
+    color: #8a92a6;
+    line-height: 1.5;
+    margin-bottom: 30px;
+}
+
+.footer-copy {
+    font-size: 12px;
+    color: #8a92a6;
+}
+
+/* Стили обычных колонок */
+.footer-heading {
+    font-size: 15px;
+    font-weight: 700;
+    color: #00052C;
+    margin-bottom: 20px;
+}
+
+.footer-text,
+.footer-schedule {
+    font-size: 12px;
+    color: #8a92a6;
+    line-height: 1.6;
+}
+
+.footer-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-link-tel {
+    font-size: 13px;
+    font-weight: 600;
+    color: #8a92a6;
+    text-decoration: none;
+}
+
+.footer-email {
+    font-size: 12px;
+    color: #105DC7;
+    text-decoration: underline;
+}
+
+.footer-email:hover {
+    color: #0d47a1;
+}
+
+/* Стили навигационных списков в футере */
+.footer-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-menu a {
+    font-size: 12px;
+    color: #8a92a6;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-menu a:hover {
+    color: #105DC7;
+    /* Синяя подсветка при наведении */
+}
+
+/* Иконка ВК */
+.footer-social-vk {
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+    width: 32px;
+    height: 32px;
+    transition: transform 0.2s ease;
+}
+
+.footer-social-vk svg {
+    width: 100%;
+    height: 100%;
+    fill: #0077ff;
+    /* Фирменный синий цвет ВК */
+}
+
+.footer-social-vk:hover {
+    transform: scale(1.08);
+    /* Легкое увеличение при наведении */
+}
+
+/* Адаптивный дизайн для планшетов и мобильных */
+@media (max-width: 1024px) {
+    .footer-container {
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 колонки на планшетах */
+        padding: 40px;
+    }
+
+    .brand-column {
+        border-right: none;
+        /* Убираем вертикальную линию */
+        grid-column: span 3;
+        /* Бренд занимает всю верхнюю строку */
+        padding-right: 0;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 20px;
+    }
+}
+
+@media (max-width: 680px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+        /* 1 колонка на смартфонах */
+        gap: 30px;
+        padding: 30px 20px;
+    }
+
+    .brand-column {
+        grid-column: span 1;
+    }
+
+    .footer-social-vk {
+        position: static;
+        /* Возвращаем иконку в общий поток */
+        margin-top: 10px;
+    }
+}
+
+
+
+
+
+
+
+
+
+/* новоости */
+
+/* Изолированный модуль новостей Читинской ЦРБ */
+.crb-news-module {
+    padding: 0px 0;
+    background-color: #ffffff; /* Тон секции для отделения от других вкладок */
+    width: 100%;
+    display: block;
+}
+
+.crb-news-wrapper {
+    max-width: 1300px;
+    margin: 0 auto;
+    background-color: #FAFBFD;
+    border-radius: 16px;
+    padding: 30px;
+}
+
+/* Верхняя линия (заголовок + селект) */
+.crb-news-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 32px;
+    gap: 20px;
+}
+
+.crb-news-heading h2 {
+    color: #0f172a;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+.crb-news-heading p {
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.crb-news-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #475569;
+    white-space: nowrap;
+}
+
+.crb-news-select {
+    padding: 10px 16px;
+    font-size: 14px;
+    color: #1e293b;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+}
+
+/* Сетка и карточки */
+.crb-news-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.crb-news-item {
+    display: flex;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.crb-news-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.crb-news-cover {
+    width: 28%;
+    min-width: 260px;
+}
+
+.crb-news-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.crb-news-info {
+    width: 72%;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Метаданные и теги */
+.crb-news-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.crb-news-tag {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.crb-news-tag.tag-blue { background-color: #e0f2fe; color: #0369a1; }
+.crb-news-tag.tag-green { background-color: #dcfce7; color: #15803d; }
+.crb-news-tag.tag-purple { background-color: #f3e8ff; color: #6b21a8; }
+
+.crb-news-info h3 {
+    color: #0f172a;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.crb-news-info p {
+    color: #475569;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.crb-news-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #0284c7;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.crb-news-link:hover .link-arrow {
+    transform: translateX(3px);
+}
+
+/* Кнопки страниц */
+.crb-news-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 48px;
+}
+
+/* Общий контейнер навигации — выравнивает всё по центру и задает отступы */
+.crb-news-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* Расстояние между кнопками, чтобы они не слипались */
+    margin: 30px 0;
+}
+
+/* Базовый стиль кнопки */
+.crb-news-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid #e2e8f0;
+    background-color: #ffffff;
+    color: #64748b; /* Чуть более мягкий цвет текста */
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Легкая современная тень */
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+/* Активная страница */
+.crb-news-page.crb-news-active {
+    background-color: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
+    box-shadow: 0 4px 10px rgba(2, 132, 199, 0.2); /* Свечение для активной */
+}
+
+/* Эффект при наведении на обычные кнопки и стрелки */
+.crb-news-page:hover:not(.crb-news-active):not(.crb-news-dots) {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+    color: #0f172a;
+    transform: translateY(-1px); /* Легкое приподнимание */
+}
+
+/* Эффект при клике мышкой (акцент) */
+.crb-news-page:active:not(.crb-news-active):not(.crb-news-dots) {
+    transform: translateY(0);
+}
+
+/* Стили для троеточия */
+.crb-news-page.crb-news-dots {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    color: #94a3b8;
+    cursor: default;
+}
+
+/* Особый стиль для иконок-стрелочек */
+.crb-news-arrow svg {
+    display: block;
+    color: #94a3b8;
+    transition: color 0.2s ease;
+}
+
+.crb-news-arrow:hover svg {
+    color: #0f172a; /* Стрелочка темнеет при наведении */
+}
+
+/* Адаптивная мобильная перестройка */
+@media (max-width: 768px) {
+    .crb-news-top-bar { flex-direction: column; align-items: flex-start; }
+    .crb-news-item { flex-direction: column; }
+    .crb-news-cover { width: 100%; height: 200px; }
+    .crb-news-info { width: 100%; padding: 24px; }
+}

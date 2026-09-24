@@ -1,0 +1,102 @@
+{% extends "base_cabinet.html" %} 
+{% load static %} 
+
+{% block title %} 
+Подтверждение телефона
+{% endblock %} 
+
+{% block extra_css %}
+<!-- Используем наш единый файл стилей авторизации -->
+<link rel="stylesheet" href="{% static 'css/login.css' %}" />
+{% endblock %} 
+
+{% block content %}
+<div class="login-wrapper">
+  
+  <!-- Единый двухколоночный контейнер макс-шириной 1300px с цветом F9FCFE -->
+  <div class="auth-container">
+    
+    <!-- ЛЕВАЯ ЧАСТЬ: Свободное пространство для общей инфы (такое же, как на логине/регистрации) -->
+    <div class="auth-info-side">
+      <div class="info-content-placeholder">
+        <h2>Пространство для информирования</h2>
+        <p>Справочная информация, преимущества личного кабинета</p>
+      </div>
+    </div>
+
+    <!-- ПРАВАЯ ЧАСТЬ: Карточка ввода кода -->
+    <div class="login-card">
+      
+      <!-- Иконка сообщения -->
+      <div class="avatar-container">
+        <div class="avatar-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b72f3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            <path d="M12 11v2"></path>
+            <path d="M12 7h.01"></path>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Заголовки карточки -->
+      <h2>Введите код из SMS</h2>
+      <p class="subtitle">Код отправлен на номер <span style="color: #3b72f3; font-weight: 600;">{{ phone }}</span></p>
+      {% if test_code %}
+        <div class="test-code-badge" style="background-color: #f0f4ff; color: #3b72f3; padding: 10px; border-radius: 8px; text-align: center; font-size: 13px; font-weight: 600; margin-bottom: 20px; border: 1px dashed #3b72f3;">
+          Тестовый код {{ test_code }}
+        </div>
+      {% endif %}
+      <!-- Вывод серверных ошибок от Django Messages (если код введен неверно) -->
+      {% if messages %}
+        <div class="messages-container">
+          {% for message in messages %}
+            <div class="alert alert-danger">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <!-- Форма отправки кода (отправляет данные на тот же монолитный URL регистрации) -->
+      <form method="POST" action="{% url 'cabinet:register' %}" class="login-form">
+        {% csrf_token %}
+        
+        <!-- Блок раздельных ячеек для цифр кода -->
+        <div class="code-inputs">
+          <input type="text" maxlength="1" pattern="[0-9]*" inputmode="numeric" class="code-input" autofocus required />
+          <input type="text" maxlength="1" pattern="[0-9]*" inputmode="numeric" class="code-input" required />
+          <input type="text" maxlength="1" pattern="[0-9]*" inputmode="numeric" class="code-input" required />
+          <input type="text" maxlength="1" pattern="[0-9]*" inputmode="numeric" class="code-input" required />
+          <input type="text" maxlength="1" pattern="[0-9]*" inputmode="numeric" class="code-input" required />
+          <input type="text" maxlength="1" pattern="[0-9]*" inputmode="numeric" class="code-input" required />
+        </div>
+        
+        <!-- Скрытое поле для передачи полной строки на бэкенд -->
+        <input type="hidden" name="sms_code" id="full-sms-code">
+
+        <p class="timer-text" style="font-size: 13px; color: #a0aec0; text-align: center; margin-top: -5px; margin-bottom: 15px;">Код действителен в течение 5 минут</p>
+
+        <!-- Блок повторной отправки -->
+        <div class="resend-container">
+          <span class="resend-label">Не получили код?</span>
+          <div class="timer-countdown">
+            Отправим повторно через <span id="countdown-timer">00:45</span>
+          </div>
+          <!-- Ссылка появится автоматически на JS, когда таймер истечет -->
+          <a href="#" id="resend-link" class="resend-link hidden">Отправить повторно</a>
+        </div>
+
+        <!-- Кнопка подтверждения -->
+        <button type="submit" class="submit-btn" id="submit-verify-btn" disabled>
+          Подтвердить
+          <span class="arrow">&rarr;</span>
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/verify_phone.js' %}"></script>
+{% endblock %}

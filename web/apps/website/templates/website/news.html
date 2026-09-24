@@ -1,0 +1,129 @@
+{% extends "base.html" %} 
+{% block title %} 
+Новости
+{% endblock %} 
+{% block content %}
+
+<!-- Уникальный модуль новостей, защищенный от конфликтов стилей -->
+<section class="crb-news-module">
+  <div class="crb-news-wrapper">
+    <!-- Заголовок модуля и сортировка -->
+    <div class="crb-news-top-bar">
+      <div class="crb-news-heading">
+        <h2>Новости</h2>
+        <p>
+          Актуальная информация о работе больницы, мероприятиях, изменениях в
+          графике и полезные советы для пациентов.
+        </p>
+      </div>
+      <!-- <div class="crb-news-filter">
+            <span>Сортировка:</span>
+            <select class="crb-news-select">
+              <option value="new">Сначала новые</option>
+              <option value="old">Сначала старые</option>
+            </select>
+          </div> -->
+    </div>
+
+    <!-- Лента карточек -->
+    <div class="crb-news-grid">
+      {% for news in news_list %}
+      <article class="crb-news-item">
+        <div class="crb-news-cover">
+          {% if news.thumbnail %}
+          <img src="{{ news.thumbnail.url }}" alt="{{ news.title }}" />
+          {% else %}
+          <img
+            alt="Нет изображения"
+          />
+          {% endif %}
+        </div>
+
+        <div class="crb-news-info">
+          <div class="crb-news-meta">
+            <time datetime="{{ news.created_at|date:'Y-m-d' }}">
+              {{ news.created_at|date:"d.m.Y" }}
+            </time>
+          </div>
+
+          <h3>{{ news.title }}</h3>
+
+          <p>{{ news.preview }}</p>
+
+          <a href="{% url 'website:news_detail' news.slug %}" class="crb-news-link">
+            <span>Подробнее</span>
+            <svg
+              class="link-arrow"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12h14M12 5l7 7-7 7"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              />
+            </svg>
+          </a>
+        </div>
+      </article>
+
+      {% empty %}
+      <p>Новостей пока нет.</p>
+      {% endfor %}
+    </div>
+
+    <!-- Навигация по страницам -->
+    <nav class="crb-news-nav" aria-label="Постраничная навигация">
+      <!-- Стрелка назад -->
+      <a href="#" class="crb-news-page crb-news-arrow">
+        <svg
+          xmlns="http://w3.org"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          width="16"
+          height="16"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15.75 19.5L8.25 12l7.5-7.5"
+          />
+        </svg>
+      </a>
+
+      <!-- Номера страниц -->
+      <a href="#" class="crb-news-page crb-news-active">1</a>
+      <a href="#" class="crb-news-page">2</a>
+      <a href="#" class="crb-news-page">3</a>
+      <a href="#" class="crb-news-page">4</a>
+      <span class="crb-news-page crb-news-dots">...</span>
+      <a href="#" class="crb-news-page">8</a>
+
+      <!-- Стрелка вперед -->
+      <a href="#" class="crb-news-page crb-news-arrow">
+        <svg
+          xmlns="http://w3.org"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          width="16"
+          height="16"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M8.25 4.5l7.5 7.5-7.5 7.5"
+          />
+        </svg>
+      </a>
+    </nav>
+  </div>
+</section>
+
+{% endblock %}

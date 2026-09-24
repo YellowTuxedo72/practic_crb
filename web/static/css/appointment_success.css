@@ -1,0 +1,220 @@
+/* ==========================================================================
+   СТРАНИЦА УСПЕШНОЙ ЗАПИСИ (ФИРМЕННЫЙ СТИЛЬ КАБИНЕТА)
+   ========================================================================== */
+
+.appointment-success {
+  max-width: 1300px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 60px 20px 80px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  /* Запуск стандартной анимации появления, если она подключена в base */
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+.success-card {
+  width: 100%;
+  max-width: 520px; /* Слегка сузили для более аккуратного "вертикального" вида чека */
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 40px;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.03), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+  text-align: center;
+}
+
+/* Иконка подтверждения */
+.success-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #edf4ff; /* Нежно-синий пастельный фон */
+  color: #3b72f3;            /* Наш фирменный синий */
+}
+
+.success-card h1 {
+  margin: 0 0 8px 0;
+  color: #0f172a;            /* Глубокий графитовый оттенок */
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.success-subtitle {
+  margin: 0 0 32px 0;
+  color: #64748b;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+/* Карточка-талон */
+.success-details {
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: left;
+  background: #ffffff;
+}
+
+.success-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 13.5px;
+}
+
+.success-row:last-child {
+  border-bottom: none;
+}
+
+.success-label {
+  color: #64748b;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.success-row strong {
+  color: #0f172a;
+  font-weight: 600;
+  text-align: right;
+}
+
+/* Акцентная строка стоимости */
+.success-price {
+  margin-top: 2px;
+  border-top: 1px dashed #e2e8f0; /* Аккуратный пунктир чека */
+  padding-top: 16px;
+  background: #f8fafc;            /* Выделяем строку стоимости легким тоном */
+}
+
+.success-price .success-label {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.success-price strong {
+  color: #3b72f3;                /* Стоимость горит фирменным синим цветом */
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* Блок кнопок */
+.success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 32px;
+}
+
+/* Главная синяя кнопка */
+.success-primary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: #3b72f3;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+}
+
+.success-primary-btn:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.success-primary-btn:active {
+  transform: scale(0.99);
+}
+
+/* Легкая нижняя ссылка возврата */
+.success-back-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  color: #64748b;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: color 0.15s ease;
+}
+
+.success-back-link:hover {
+  color: #0f172a; /* При наведении становится контрастно-темной */
+}
+
+/* Адаптивность для смартфонов */
+@media (max-width: 600px) {
+  .appointment-success {
+    padding: 20px 12px;
+  }
+
+  .success-card {
+    padding: 32px 16px;
+  }
+
+  .success-row {
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 16px;
+  }
+
+  .success-row strong {
+    text-align: left;
+  }
+}
+
+/* =========================================================
+   ИНФО-БЛОК С ПАМЯТКОЙ ОБ ОПЛАТЕ
+   ========================================================= */
+
+.success-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  
+  margin-top: 24px;
+  padding: 16px;
+  
+  background-color: #f0f5ff; /* Наш фирменный пастельно-синий фон */
+  border-radius: 10px;
+  text-align: left;
+}
+
+/* Иконка "i" внутри инфо-блока */
+.success-notice .notice-icon {
+  color: #3b72f3;            /* Фирменный синий цвет для иконки */
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  margin-top: 2px;          /* Идеальное выравнивание по первой строке текста */
+}
+
+/* Текст памятки */
+.success-notice p {
+  margin: 0;
+  color: #334155;            /* Читаемый графитовый цвет текста */
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Выделение важного слова жирным */
+.success-notice strong {
+  color: #0f172a;
+}

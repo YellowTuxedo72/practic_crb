@@ -1,0 +1,367 @@
+{% extends "base_cabinet.html" %} 
+{% load static %} 
+
+{% block title %} 
+Запись на услугу — ГУЗ "Читинская ЦРБ"
+{% endblock %} 
+
+{% block extra_css %}
+<!-- Единый изолированный CSS для всех шагов записи -->
+<link rel="stylesheet" href="{% static 'css/appointment.css' %}" />
+{% endblock %} 
+
+{% block content %}
+<div class="appointment-layout">
+  <div class="appointment-grid">
+    
+    <!-- ЛЕВАЯ КОЛОНКА: Динамические шаги записи (меняют класс active в зависимости от бэкенда) -->
+    <aside class="appointment-steps-side">
+      <div class="step-item {% if current_step == 'step_1' %}step-active{% elif current_step == 'step_2' or current_step == 'step_3' %}step-completed{% else %}step-disabled{% endif %}">
+          <div class="step-number">1</div>
+          <div class="step-text">
+              <h5>Выбор услуги</h5>
+              <p>Выберите направление и услугу</p>
+          </div>
+      </div>
+
+      <div class="step-item {% if current_step == 'step_2' %}step-active{% elif current_step == 'step_3' %}step-completed{% else %}step-disabled{% endif %}">
+          <div class="step-number">2</div>
+          <div class="step-text">
+              <h5>Дата и время</h5>
+              <p>Выбор даты и времени приёма</p>
+          </div>
+      </div>
+
+      <div class="step-item {% if current_step == 'step_3' %}step-active{% else %}step-disabled{% endif %}">
+          <div class="step-number">3</div>
+          <div class="step-text">
+              <h5>Подтверждение</h5>
+              <p>Проверка и подтверждение</p>
+          </div>
+      </div>
+  </aside>
+
+    <!-- ЦЕНТРАЛЬНАЯ КОЛОНКА: Меняется в зависимости от текущего шага в сессии -->
+    <main class="appointment-main-side">
+      
+      <!-- ВЫВОД ОШИБОК И СООБЩЕНИЙ -->
+      {% if messages %}
+        <div class="messages-container" style="margin-bottom: 20px;">
+          {% for message in messages %}
+            <div class="alert alert-danger" style="background: #fff5f5; color: #df3838; padding: 12px 16px; border-radius: 8px; font-size: 14px; border: 1px solid #fed7d7;">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+            <!-- ========================================== -->
+      <!-- ШАГ 1: ВИТРИНА И ВЫБОР МЕДИЦИНСКОЙ УСЛУГИ  -->
+      <!-- ========================================== -->
+      {% if current_step == "step_1" %}
+      <form method="POST" action="{% url 'cabinet:appointment' %}" id="appointment-step1-form">
+        {% csrf_token %}
+        
+        <!-- НАПРАВЛЕНИЯ: Каждая кнопка — это быстрая ссылка, меняющая параметр в URL -->
+        <section class="section-block" style="margin-bottom: 32px;">
+          <h3 class="section-title">Выберите направление</h3>
+          <p class="section-subtitle">Выберите тип записи, чтобы подобрать подходящие услуги</p>
+          
+          <div class="direction-tabs">
+            <a href="?category=consultation" class="dir-tab {% if active_category == 'consultation' %}active{% endif %}">
+              <span class="dir-title">Консультации специалистов</span>
+              <span class="dir-desc">Прием у врача</span>
+            </a>
+            <a href="?category=analysis" class="dir-tab {% if active_category == 'analysis' %}active{% endif %}">
+              <span class="dir-title">Сдать анализы</span>
+              <span class="dir-desc">Лабораторные исследования</span>
+            </a>
+            <a href="?category=diagnostic" class="dir-tab {% if active_category == 'diagnostic' %}active{% endif %}">
+              <span class="dir-title">Диагностика</span>
+              <span class="dir-desc">Обследования и процедуры</span>
+            </a>
+            <a href="?category=procedure" class="dir-tab {% if active_category == 'procedure' %}active{% endif %}">
+              <span class="dir-title">Процедуры</span>
+              <span class="dir-desc">Уколы, капельницы</span>
+            </a>
+            <a href="?category=dentistry" class="dir-tab {% if active_category == 'dentistry' %}active{% endif %}">
+              <span class="dir-title">Стоматология</span>
+              <span class="dir-desc">Лечение зубов</span>
+            </a>
+            <a href="?category=rehabilitation" class="dir-tab {% if active_category == 'rehabilitation' %}active{% endif %}">
+              <span class="dir-title">Реабилитация</span>
+              <span class="dir-desc">Восстановление</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- СПИСОК УСЛУГ ИЗ МИС -->
+        <section class="section-block">
+          <h3 class="section-title">Выбор услуги</h3>
+          <p class="section-subtitle">Найдите нужную услугу в списке ниже.</p>
+          
+          <div class="services-list-container">
+            
+            <!-- Если зашли внутрь папки, показываем чистую кнопку возврата назад на верхний уровень -->
+            {% if parent_id %}
+              <a href="?category={{ active_category }}" class="service-row-card is-folder" style="text-decoration: none;">
+                <div class="service-info-left">
+                  <div class="service-avatar-placeholder folder-icon" style="background: #f1f5f9;">
+                    <span style="color: #718096; font-weight: bold; font-size: 16px;">&larr;</span>
+                  </div>
+                  <div class="service-title-block">
+                    <h4>Вернуться назад</h4>
+                    <p>Назад к основному списку категорий</p>
+                  </div>
+                </div>
+                <div class="service-price-right">
+                  <span class="arrow-icon" style="transform: scaleX(-1); display: inline-block;">&rsaquo;</span>
+                </div>
+              </a>
+            {% endif %}
+
+            <!-- Перебираем циклом пришедшие из МИС услуги -->
+            {% for service in services %}
+              {% if service.has_children %}
+                <!-- Если папка: Клик просто перезагружает страницу с параметром parent=id -->
+                <a href="?category={{ active_category }}&parent={{ service.id }}" class="service-row-card is-folder" style="text-decoration: none;">
+                  <div class="service-info-left">
+                    <div class="service-avatar-placeholder folder-icon">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b72f3" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    </div>
+                    <div class="service-title-block">
+                      <h4>{{ service.name }}</h4>
+                      <p>Нажмите, чтобы открыть этот подраздел</p>
+                    </div>
+                  </div>
+                  <div class="service-price-right">
+                    <span class="arrow-icon">&rsaquo;</span>
+                  </div>
+                </a>
+              {% else %}
+                <!-- ИСПРАВЛЕНИЕ: Класс заменен на "selectable-service", чтобы JS его гарантированно находил -->
+                <div class="service-row-card selectable-service" data-service-id="{{ service.id }}" data-service-name="{{ service.name }}" data-service-price="{{ service.price }}">
+                  <div class="service-info-left">
+                    <div class="service-avatar-placeholder doc-icon">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a0aec0" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </div>
+                    <div class="service-title-block">
+                      <h4>{{ service.name }}</h4>
+                      <p>Медицинская услуга / прием специалиста</p>
+                    </div>
+                  </div>
+                   <div class="service-price-right">
+                    <span class="price-value">{{ service.price }} ₽</span>
+                    <span class="arrow-icon">&rsaquo;</span>
+                  </div>
+                </div>
+              {% endif %}
+            {% empty %}
+              <div style="padding: 40px; text-align: center; color: #a0aec0; font-size: 14px;">В данном подразделе пока нет доступных услуг.</div>
+            {% endfor %}
+
+          </div>
+
+          <!-- Скрытое поле для ID выбранной услуги -->
+          <input type="hidden" name="service_id" id="selected-service-id" value="">
+
+          <!-- Кнопка продолжения -->
+          <button type="submit" class="submit-btn" id="submit-btn" disabled>
+              Продолжить запись
+          </button>
+        </section>
+      </form>
+      {% endif %}
+
+
+      <!-- ========================================== -->
+      <!-- ШАГ 2: ВЫБОР ДАТЫ И ВРЕМЕНИ ПРИЕМА         -->
+      <!-- ========================================== -->
+      {% if current_step == "step_2" %}
+        <form method="POST" action="{% url 'cabinet:appointment' %}{% if selected_date %}?date={{ selected_date }}{% endif %}">
+            {% csrf_token %}
+
+            <section class="section-block appointment-step-card">
+                <div class="appointment-step-heading">
+                    <h3 class="section-title">Выберите дату и время</h3>
+                    <p class="section-subtitle">Сначала выберите удобную дату, затем свободное время</p>
+                </div>
+
+                <div class="appointment-selection-block">
+                    <h4 class="selection-label">Доступные даты</h4>
+
+                    <div class="date-options">
+                        {% for date in available_dates %}
+                            <a
+                                href="?date={{ date|date:'Y-m-d' }}"
+                                class="date-option {% if selected_date == date|date:'Y-m-d' %}selected{% endif %}"
+                            >
+                                <span class="date-option-day">{{ date|date:"j" }}</span>
+                                <!-- Меняем "F" на "b" для короткого формата типа "авг" -->
+                                <span class="date-option-month">{{ date|date:"b" }}</span> 
+                            </a>
+                        {% empty %}
+                            <div class="selection-empty">Свободных дат нет.</div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                {% if selected_date %}
+                    <div class="appointment-selection-block appointment-time-block">
+                        <h4 class="selection-label">Свободное время</h4>
+
+                        <div class="time-options">
+                            {% for slot in slots %}
+                                <label class="time-option">
+                                    <input type="radio" name="slot_id" value="{{ slot.id }}" required>
+                                    <span>{{ slot.time|time:"H:i" }}</span>
+                                </label>
+                            {% empty %}
+                                <div class="selection-empty">На выбранную дату свободного времени нет.</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="appointment-actions">
+                  <button type="submit" name="back_to_services" value="true" formnovalidate class="appointment-btn appointment-btn-secondary">
+                      &larr; Назад к услугам
+                  </button>
+
+                  {% if selected_date %}
+                      <!-- Добавляем id="time-submit-btn" и атрибут disabled -->
+                      <button type="submit" class="appointment-btn appointment-btn-primary" id="time-submit-btn" disabled>
+                          Далее &rarr;
+                      </button>
+                  {% endif %}
+              </div>
+            </section>
+        </form>
+        {% endif %}
+      <!-- ========================================== -->
+      <!-- ШАГ 3: ИТОВОГОЕ ПОДТВЕРЖДЕНИЕ ЗАПИСИ        -->
+      <!-- ========================================== -->
+      {% if current_step == "step_3" %}
+        <form method="POST" action="{% url 'cabinet:appointment' %}">
+            {% csrf_token %}
+
+            <section class="section-block appointment-step-card">
+                <div class="appointment-step-heading">
+                    <h3 class="section-title">Проверьте данные записи</h3>
+                    <p class="section-subtitle">Убедитесь, что услуга, дата и время выбраны верно</p>
+                </div>
+
+                <div class="confirmation-card">
+                    <div class="confirmation-header">
+                        <div class="confirmation-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="17" rx="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                        </div>
+
+                        <div>
+                            <h4>Талон предварительной записи</h4>
+                            <p>Проверьте информацию перед подтверждением</p>
+                        </div>
+                    </div>
+
+                    <div class="confirmation-list">
+                      <div class="confirmation-row">
+                          <span class="confirmation-label">Пациент</span>
+                          <strong>{{ request.user.get_full_fio }}</strong>
+                      </div>
+
+                      <div class="confirmation-row">
+                          <span class="confirmation-label">Услуга</span>
+                          <strong>{{ selected_service.name }}</strong>
+                      </div>
+
+                      <div class="confirmation-row">
+                          <span class="confirmation-label">Дата</span>
+                          <strong>{{ selected_slot.date|date:"d.m.Y" }}</strong>
+                      </div>
+
+                      <div class="confirmation-row">
+                          <span class="confirmation-label">Время</span>
+                          <strong>{{ selected_slot.time|time:"H:i" }}</strong>
+                      </div>
+
+                      <div class="confirmation-row confirmation-total">
+                          <span class="confirmation-label">Стоимость</span>
+                          <strong>{{ selected_service.price }} ₽</strong>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="appointment-actions">
+                    <button type="submit" name="back_to_slots" value="true" class="appointment-btn appointment-btn-secondary">
+                        &larr; Назад к времени
+                    </button>
+
+                    <button type="submit" class="appointment-btn appointment-btn-success">
+                        Подтвердить запись
+                    </button>
+                </div>
+            </section>
+        </form>
+        {% endif %}
+
+    </main>
+
+    <aside class="appointment-help-side">
+      <div class="help-sticky-card">
+        <h4>Нужна помощь?</h4>
+        <p>Позвоните нам или обратитесь в регистратуру</p>
+        <a href="tel:+73022211180" class="help-phone-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          +7 (3022) 21-11-80
+        </a>
+      </div>
+
+       <!-- Информация о записи по ОМС -->
+    <div class="oms-help-card">
+
+        <div class="oms-help-icon">
+            <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M12 8v4"></path>
+                <circle cx="12" cy="16" r="0.5" fill="currentColor"></circle>
+            </svg>
+        </div>
+
+        <div class="oms-help-content">
+            <h4>Запись по ОМС</h4>
+
+            <p>
+                Записаться на приём в рамках обязательного медицинского страхования можно бесплатно. 
+            </p>
+
+            <a href="#" class="oms-help-link">
+                Подробнее
+                <span>›</span>
+            </a>
+        </div>
+
+    </div>
+    </aside>
+
+{% endblock %}
+{% block extra_js %}
+<!-- Подключаем скрипт управления витриной услуг -->
+<script src="{% static 'js/appointment.js' %}"></script>
+{% endblock %}

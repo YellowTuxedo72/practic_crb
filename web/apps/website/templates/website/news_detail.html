@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+{% load editorjs %}
+
+{% block title %}
+    {{ news.title }}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/page.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<main class="page-container">
+
+    <div class="page-header">
+
+        <div class="crb-news-meta">
+            <time datetime="{{ news.created_at|date:'Y-m-d' }}">
+                {{ news.created_at|date:"d.m.Y" }}
+            </time>
+        </div>
+
+        <h1 class="page-title">
+            {{ news.title }}
+        </h1>
+
+    </div>
+
+    {% if news.thumbnail %}
+        <div class="news-detail-image">
+            <img
+                src="{{ news.thumbnail.url }}"
+                alt="{{ news.title }}"
+            >
+        </div>
+    {% endif %}
+
+    <article class="page-content">
+        {{ news.text|render_editorjs }}
+    </article>
+
+    <div class="news-detail-back">
+        <a href="{% url 'website:news_page' %}">
+            ← Вернуться к новостям
+        </a>
+    </div>
+
+</main>
+
+{% endblock %}

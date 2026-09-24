@@ -1,0 +1,80 @@
+{% extends "base_cabinet.html" %}
+{% load static %}
+
+{% block title %}Запись успешно создана — ГУЗ "Читинская ЦРБ"{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/appointment_success.css' %}?v=2">
+{% endblock %}
+
+{% block content %}
+<div class="appointment-success">
+    <div class="success-card">
+        <!-- Утонченная иконка галочки с пастельной подложкой -->
+        <div class="success-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </div>
+
+        <h1>Запись успешно создана</h1>
+        <p class="success-subtitle">Ваша запись на платный приём успешно оформлена</p>
+
+        <!-- Цифровой талон-чек -->
+        <div class="success-details">
+            <div class="success-row">
+                <span class="success-label">Номер записи</span>
+                <strong>№{{ appointment.id }}</strong>
+            </div>
+
+            <div class="success-row">
+                <span class="success-label">Услуга</span>
+                <strong>{{ appointment.service }}</strong>
+            </div>
+
+            <div class="success-row">
+                <span class="success-label">Врач</span>
+                <strong>{{ appointment.doctor }}</strong>
+            </div>
+
+            <div class="success-row">
+                <span class="success-label">Дата приёма</span>
+                <strong>{{ appointment.date|date:"d.m.Y" }}</strong>
+            </div>
+
+            <div class="success-row">
+                <span class="success-label">Время</span>
+                <strong>{{ appointment.time|time:"H:i" }}</strong>
+            </div>
+
+            <!-- Итоговая стоимость с пунктирным разделением -->
+            <div class="success-row success-price">
+                <span class="success-label">Стоимость услуги</span>
+                <strong>{{ appointment.price }} ₽</strong>
+            </div>
+        </div>
+
+        <!-- Памятка в красивой обертке -->
+        <div class="success-notice">
+            <div class="notice-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+            </div>
+            <p><strong>Обратите внимание:</strong> так как услуга предоставляется на платной основе, перед приёмом необходимо подойти в кассу платных услуг в регистратуре (1 этаж) для оплаты и оформления договора. Пожалуйста, приходите за 15–20 минут до назначенного времени</p>
+        </div>
+
+        <!-- Кнопки действий -->
+        <div class="success-actions">
+            <a href="{% url 'cabinet:patient_cabinet' %}" class="success-primary-btn">
+                <span>Перейти в личный кабинет</span>
+            </a>
+            <a href="{% url 'website:index' %}" class="success-back-link">
+                <span>Вернуться на главную</span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

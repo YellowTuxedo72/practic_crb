@@ -29,6 +29,7 @@ ALLOWED_HOSTS = [
     "fake-mis",
     "localhost",
     "127.0.0.1",
+    "217.12.40.97",
 ]
 
 
